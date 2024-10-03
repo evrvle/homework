@@ -1,0 +1,98 @@
+<!-- Продвинутый JavaScript (семинары)
+Урок 2. Продвинутая работа с функциями и классами
+Задание 2 -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система отзывов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #reviews-container {
+            margin-top: 20px;
+        }
+        .review {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Отзывы о продуктах</h1>
+
+<label for="review-input">Введите ваш отзыв:</label>
+<textarea id="review-input" rows="4" cols="50"></textarea><br>
+<button id="submit-review">Отправить отзыв</button>
+
+<div id="reviews-container"></div>
+
+<script>
+// Начальные данные
+const initialData = [
+    {
+        product: "Apple iPhone 13",
+        reviews: [
+            { id: "1", text: "Отличный телефон! Батарея держится долго." },
+            { id: "2", text: "Камера супер, фото выглядят просто потрясающе." },
+        ],
+    },
+    {
+        product: "Samsung Galaxy Z Fold 3",
+        reviews: [
+            { id: "3", text: "Интересный дизайн, но дорогой." },
+        ],
+    },
+    {
+        product: "Sony PlayStation 5",
+        reviews: [
+            { id: "4", text: "Люблю играть на PS5, графика на высоте." },
+        ],
+    },
+];
+
+function displayReviews() {
+    const container = document.getElementById('reviews-container');
+    container.innerHTML = '';
+    initialData.forEach(product => {
+        product.reviews.forEach(review => {
+            const reviewElement = document.createElement('div');
+            reviewElement.className = 'review';
+            reviewElement.textContent = review.text;
+            container.appendChild(reviewElement);
+        });
+    });
+}
+
+function addReview() {
+    const reviewInput = document.getElementById('review-input');
+    const reviewText = reviewInput.value.trim();
+
+    if (reviewText.length < 50 || reviewText.length > 500) {
+        alert("Отзыв должен содержать от 50 до 500 символов.");
+        return;
+    }
+
+    const newReviewId = (initialData.flatMap(product => product.reviews).length + 1).toString();
+    
+    initialData[0].reviews.push({ id: newReviewId, text: reviewText });
+
+    reviewInput.value = '';
+
+    displayReviews();
+}
+
+displayReviews();
+
+document.getElementById('submit-review').addEventListener('click', addReview);
+
+</script>
+
+</body>
+</html>
